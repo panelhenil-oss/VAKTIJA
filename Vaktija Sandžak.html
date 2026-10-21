@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="bs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Vaktija Sandžak</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Inter:wght@200;300;400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#fff;--fg:#111;--mute:#8a8a8a;--line:#e6e6e6;--sa:env(safe-area-inset-top,0px);box-sizing:border-box;padding-top:var(--sa);padding-bottom:env(safe-area-inset-bottom,0px)}
+:root[data-t="dark"]{--bg:#000;--fg:#fff;--mute:#777;--line:#222}
+@media(prefers-color-scheme:dark){:root:not([data-t="light"]):not([data-t="dark"]){--bg:#000;--fg:#fff;--mute:#777;--line:#222}}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{background:var(--bg);color:var(--fg);font-family:"Inter",system-ui,-apple-system,"Helvetica Neue",Arial,sans-serif;-webkit-font-smoothing:antialiased;font-size:16px}
+main{min-height:100%;max-width:1200px;margin:0 auto;padding:clamp(20px,4vw,56px);display:grid;gap:clamp(24px,4vw,64px);grid-template-columns:1fr;align-content:center}
+header{position:relative;text-align:center;grid-column:1/-1;padding:8px 52px 0}
+h1{font-family:"Cormorant Garamond",Georgia,"Times New Roman",serif;font-size:clamp(32px,5.2vw,68px);font-weight:600;letter-spacing:.01em;line-height:1.05;margin:0;text-wrap:balance}
+.sub{color:var(--mute);font-size:clamp(13px,1.2vw,16px);margin-top:4px}
+button{font:inherit;color:inherit;background:none;border:1px solid var(--line);border-radius:999px;padding:8px 14px;cursor:pointer}
+button:hover{border-color:var(--fg)}
+#gear{position:absolute;right:0;top:0;width:40px;height:40px;padding:0;display:grid;place-items:center;font-size:18px}
+.clock{font-weight:200;font-size:clamp(64px,22vw,200px);line-height:1;letter-spacing:-.04em;font-variant-numeric:tabular-nums}
+.clock small{font-size:.25em;color:var(--mute);letter-spacing:0;margin-left:.15em}
+.next{margin-top:18px;color:var(--mute);font-size:clamp(14px,1.5vw,20px)}
+.next b{color:var(--fg);font-weight:600}
+ul{list-style:none;margin:0;padding:0}
+li{display:flex;justify-content:space-between;align-items:baseline;padding:clamp(12px,1.6vw,22px) 0;border-bottom:1px solid var(--line);font-size:clamp(18px,2.2vw,30px);color:var(--mute)}
+li span:last-child{font-variant-numeric:tabular-nums;font-weight:300}
+li.on{color:var(--fg);font-weight:600}li.on span:last-child{font-weight:600}
+li.on::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--fg);align-self:center;margin-right:14px;flex:none}
+li span:first-child{flex:1}
+@media(min-width:760px){main{grid-template-columns:1.1fr 1fr;align-items:center}}
+body.tv main{max-width:none;grid-template-columns:1.1fr 1fr;padding:3vw 4vw}
+body.tv .clock{font-size:15vw}body.tv li{font-size:2.8vw}body.tv h1{font-size:5vw}body.tv .sub,body.tv .next{font-size:1.5vw}
+body.tv #gear{width:3.2vw;height:3.2vw;font-size:1.7vw;opacity:.6}
+body.ph main{grid-template-columns:1fr}
+#panel{position:fixed;inset:0;background:rgba(0,0,0,.4);display:none;align-items:center;justify-content:center;padding:16px}
+#panel.open{display:flex}
+.card{background:var(--bg);border:1px solid var(--line);border-radius:16px;padding:24px;width:min(420px,100%);display:grid;gap:16px}
+.card label{display:grid;gap:6px;font-size:13px;color:var(--mute)}
+.card input,.card select{font:inherit;font-size:16px;color:var(--fg);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:10px}
+.seg{display:flex;gap:6px;flex-wrap:wrap}.seg button.on{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+.foot{font-size:12px;color:var(--mute)}
+.card{max-height:92vh;overflow:auto}.lbl{font-size:13px;color:var(--mute);margin-bottom:8px}
+.ar{display:grid;grid-template-columns:1fr 76px 140px;gap:8px;align-items:center;margin-bottom:6px;font-size:14px}.ar input{padding:6px 8px;font-size:14px;width:100%}.tm{display:flex;align-items:center;gap:4px}.ar select{font:inherit;font-size:14px;color:var(--fg);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:6px 2px;width:100%}
+.orn{display:flex;align-items:center;gap:12px;justify-content:center;margin:12px auto 8px;color:var(--mute);max-width:380px;font-size:12px}.orn::before,.orn::after{content:"";flex:1;height:1px;background:var(--line)}
+.pat{position:fixed;inset:0;width:100%;height:100%;z-index:-1;opacity:.07;color:var(--fg);pointer-events:none;-webkit-mask-image:radial-gradient(ellipse at center,transparent 28%,#000 95%);mask-image:radial-gradient(ellipse at center,transparent 28%,#000 95%)}
+body::after{content:"";position:fixed;inset:12px;border:1px solid var(--line);pointer-events:none;z-index:-1}
+.bar{height:2px;background:var(--line);margin-top:16px;max-width:420px}.bar i{display:block;height:100%;background:var(--fg);width:0;transition:width 1s linear}
+body.tv .orn{font-size:1.2vw}body.tv .bar{max-width:30vw}
+.sub{letter-spacing:.04em}
+</style>
+</head>
+<body>
+<main>
+<svg class="pat" aria-hidden="true"><defs><pattern id="p" width="80" height="80" patternUnits="userSpaceOnUse"><path d="M22 22H58V58H22ZM40 12L68 40L40 68L12 40Z" fill="none" stroke="currentColor" stroke-width="1"/><circle cx="40" cy="40" r="3" fill="currentColor"/></pattern></defs><rect width="100%" height="100%" fill="url(#p)"/></svg>
+<header><h1 id="title"></h1><div class="orn">✦</div><div class="sub" id="date"></div><div class="sub" id="hij"></div><button id="gear" aria-label="Postavke">⚙</button></header>
+<section><div class="clock" id="clock"></div><div class="next" id="next"></div><div class="bar"><i id="bar"></i></div></section>
+<ul id="list"></ul>
+</main>
+<div id="panel"><div class="card">
+<label>Naziv na vrhu (npr. ime džamije)<input id="iTitle" maxlength="48" placeholder="Džamija ..."></label>
+<label>Grad<select id="iCity"></select></label>
+<div><div class="lbl">Vremena: korekcija u minutama ili fiksno vrijeme (sati 00–23, minute 00–59). Fiksno ima prednost; — znači bez promjene.</div><div id="adj"></div></div>
+<label>Tema<div class="seg" id="sTheme"></div></label>
+<label>Prikaz<div class="seg" id="sMode"></div></label>
+<label>Sekunde<div class="seg" id="sSec"></div></label>
+<div class="foot">Vremena su računata astronomski (približno). Provjeriti sa zvaničnim taqvimom prije javne upotrebe.</div>
+<button id="close">Zatvori</button>
+</div></div>
+<script>
+var CITIES={"Novi Pazar":[43.137,20.512],"Tutin":[42.990,20.333],"Sjenica":[43.272,20.000],"Prijepolje":[43.391,19.646],"Priboj":[43.585,19.525],"Nova Varoš":[43.461,19.806],"Pljevlja":[43.357,19.358],"Bijelo Polje":[43.038,19.748],"Berane":[42.838,19.872],"Petnjica":[42.912,20.000],"Rožaje":[42.838,20.167],"Plav":[42.597,19.945],"Gusinje":[42.561,19.833]};
+var NAMES=["Zora","Izlazak sunca","Podne","Ikindija","Akšam","Jacija"];
+var DAYS=["Nedjelja","Ponedjeljak","Utorak","Srijeda","Četvrtak","Petak","Subota"];
+var MON=["januar","februar","mart","april","maj","juni","juli","august","septembar","oktobar","novembar","decembar"];
+var HM=["muharrem","safer","rebiu-l-evvel","rebiu-l-ahir","džumade-l-ula","džumade-l-uhra","redžeb","ša'ban","ramazan","ševval","zu-l-ka'de","zu-l-hidždže"];
+var FAJR=18,ISHA=17,ASR=1,TZ="Europe/Belgrade";
+var S={title:"",city:"Novi Pazar",theme:"auto",mode:"auto",sec:"off",adj:{}};
+try{Object.assign(S,JSON.parse(localStorage.getItem("vk")||"{}"))}catch(e){}
+function save(){try{localStorage.setItem("vk",JSON.stringify(S))}catch(e){}}
+var R=Math.PI/180;
+function times(y,m,d,lat,lng){
+  var jd=Date.UTC(y,m,d,12)/864e5+2440587.5,n=jd-2451545;
+  var g=(357.529+.98560028*n)*R,q=280.459+.98564736*n;
+  var L=(q+1.915*Math.sin(g)+.02*Math.sin(2*g))*R,e=(23.439-4e-7*n)*R;
+  var ra=Math.atan2(Math.cos(e)*Math.sin(L),Math.cos(L))/R/15,dec=Math.asin(Math.sin(e)*Math.sin(L));
+  var eq=q/15-ra;eq=((eq+12)%24+24)%24-12;
+  var noon=12-lng/15-eq,la=lat*R;
+  function H(alt){var c=(Math.sin(alt*R)-Math.sin(la)*Math.sin(dec))/(Math.cos(la)*Math.cos(dec));return Math.acos(Math.max(-1,Math.min(1,c)))/R/15}
+  var asrAlt=Math.atan(1/(ASR+Math.tan(Math.abs(la-dec))))/R,t0=Date.UTC(y,m,d);
+  var h=[noon-H(-FAJR),noon-H(-.833),noon+.0167,noon+H(asrAlt),noon+H(-.833),noon+H(-ISHA)];
+  return h.map(function(x){return Math.round((t0+x*36e5)/6e4)*6e4});
+}
+function parts(ms){var o={};new Intl.DateTimeFormat("en-GB",{timeZone:TZ,year:"numeric",month:"numeric",day:"numeric",hour:"numeric",minute:"numeric",second:"numeric",hourCycle:"h23"}).formatToParts(ms).forEach(function(p){o[p.type]=+p.value});return o}
+function fmt(ms){return new Intl.DateTimeFormat("bs",{timeZone:TZ,hour:"2-digit",minute:"2-digit",hourCycle:"h23"}).format(ms)}
+var $=function(i){return document.getElementById(i)};
+function day(off){var p=parts(Date.now()+off*864e5),c=CITIES[S.city],t=times(p.year,p.month-1,p.day,c[0],c[1]);
+  return t.map(function(x,k){var a=S.adj&&S.adj[k];if(!a)return x;if(a.f&&/^\d\d:\d\d$/.test(a.f)){var g=Date.UTC(p.year,p.month-1,p.day,+a.f.slice(0,2),+a.f.slice(3)),q=parts(g);return g-(Date.UTC(q.year,q.month-1,q.day,q.hour,q.minute)-g)}return x+(a.o||0)*6e4})}
+function render(){
+  var now=Date.now(),t=day(0),i=-1;
+  for(var k=0;k<6;k++)if(now>=t[k])i=k;
+  var nx=i<5?t[i+1]:day(1)[0],ni=i<5?i+1:0;
+  var p=parts(now),pad=function(n){return String(n).padStart(2,"0")};
+  $("clock").innerHTML=pad(p.hour)+":"+pad(p.minute)+(S.sec==="on"?"<small>"+pad(p.second)+"</small>":"");
+  var r=Math.max(0,Math.round((nx-now)/1000)),hh=Math.floor(r/3600),mm=Math.floor(r%3600/60),ss=r%60;
+  $("next").innerHTML="Do "+NAMES[ni].toLowerCase()+" <b>"+(hh?hh+" h ":"")+mm+" min"+(hh?"":" "+pad(ss)+" s")+"</b>";
+  var fri=new Date(now).toLocaleDateString("en",{timeZone:TZ,weekday:"short"})==="Fri",pv=i>=0?t[i]:nx-6*36e5;
+  $("list").innerHTML=NAMES.map(function(n,k){if(k===2&&fri)n="Džuma";return '<li class="'+(k===ni?"on":"")+'"><span>'+n+"</span><span>"+fmt(t[k])+"</span></li>"}).join("");
+  $("bar").style.width=Math.min(100,Math.max(0,(now-pv)/(nx-pv)*100))+"%";
+  var hp={};new Intl.DateTimeFormat("en-u-ca-islamic-umalqura",{timeZone:TZ,day:"numeric",month:"numeric",year:"numeric"}).formatToParts(now).forEach(function(x){hp[x.type]=x.value});
+  $("hij").textContent=hp.day+". "+HM[+hp.month-1]+" "+hp.year+". h.g.";
+  $("title").textContent=S.title||"Vaktija";
+  $("date").textContent=S.city+" · "+DAYS[new Date(Date.UTC(p.year,p.month-1,p.day)).getUTCDay()]+", "+p.day+". "+MON[p.month-1]+" "+p.year+".";
+}
+function layout(){
+  var m=S.mode,w=innerWidth;
+  if(m==="auto"||!m)m=w<760?"ph":"pc";
+  document.body.className=m==="tv"?"tv":m==="ph"?"ph":"";
+  var t=S.theme;if(t==="auto")document.documentElement.removeAttribute("data-t");else document.documentElement.setAttribute("data-t",t);
+}
+function seg(id,opts,key){
+  $(id).innerHTML=opts.map(function(o){return '<button data-v="'+o[0]+'" class="'+(S[key]===o[0]?"on":"")+'">'+o[1]+"</button>"}).join("");
+  $(id).onclick=function(e){var v=e.target.getAttribute("data-v");if(!v)return;S[key]=v;save();seg(id,opts,key);layout();render()};
+}
+$("iCity").innerHTML=Object.keys(CITIES).map(function(c){return "<option>"+c+"</option>"}).join("");
+function opts(n,sel){var s='<option value="">—</option>';for(var i=0;i<n;i++){var v=String(i).padStart(2,"0");s+='<option value="'+i+'"'+(sel===v?" selected":"")+'>'+v+'</option>'}return s}
+function buildAdj(){$("adj").innerHTML=NAMES.map(function(n,k){var a=S.adj[k]||{},f=/^\d\d:\d\d$/.test(a.f||"")?a.f.split(":"):["",""];return '<div class="ar"><span>'+n+'</span><input type="number" step="1" min="-60" max="60" placeholder="± min" data-k="'+k+'" data-f="o" value="'+(a.o||"")+'"><span class="tm"><select data-k="'+k+'" data-f="h">'+opts(24,f[0])+'</select>:<select data-k="'+k+'" data-f="m">'+opts(60,f[1])+'</select></span></div>'}).join("")}
+$("adj").oninput=function(e){var el=e.target,k=el.getAttribute("data-k");if(k===null)return;var f=el.getAttribute("data-f"),a=S.adj[k]||(S.adj[k]={});if(f==="o"){a.o=+el.value||0}else{var r=el.closest(".ar"),h=r.querySelector('[data-f="h"]').value,m=r.querySelector('[data-f="m"]').value;a.f=h===""?"":String(h).padStart(2,"0")+":"+(m===""?"00":String(m).padStart(2,"0"))}save();render()};
+function open_(){buildAdj();$("iTitle").value=S.title;$("iCity").value=S.city;
+  seg("sTheme",[["auto","Auto"],["light","Bijela"],["dark","Crna"]],"theme");
+  seg("sMode",[["auto","Auto"],["ph","Telefon"],["pc","Računar"],["tv","TV"]],"mode");
+  seg("sSec",[["off","Isključene"],["on","Prikaži"]],"sec");$("panel").classList.add("open")}
+$("gear").onclick=open_;
+$("close").onclick=function(){$("panel").classList.remove("open")};
+$("panel").onclick=function(e){if(e.target.id==="panel")$("panel").classList.remove("open")};
+$("iTitle").oninput=function(){S.title=this.value;save();render()};
+$("iCity").onchange=function(){S.city=this.value;save();render()};
+if(location.hash==="#tv"){S.mode="tv"}
+addEventListener("resize",layout);
+layout();render();setInterval(render,1000);
+</script>
+</body>
+</html>
